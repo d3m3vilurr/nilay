@@ -1,0 +1,11 @@
+--- mozilla/gfx/thebes/src/cairo-xlib-utils.c	2007-09-30 00:41:16.000000000 +0900
++++ mozilla/gfx/thebes/src/cairo-xlib-utils.c	2007-09-30 01:19:10.000000000 +0900
+@@ -34,7 +34,7 @@
+  * the terms of any one of the MPL, the GPL or the LGPL.
+  *
+  * ***** END LICENSE BLOCK ***** */
+-
++#define  HAVE_STDINT_H 1
+ #include "cairo-xlib-utils.h"
+ 
+ #include "cairo-xlib.h"
