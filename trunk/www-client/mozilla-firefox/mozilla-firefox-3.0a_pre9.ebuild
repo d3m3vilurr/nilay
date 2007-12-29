@@ -114,6 +114,10 @@ src_unpack() {
 	# -- hansmi, 2005-11-13
 	epatch ${FILESDIR}/nidev-typeahead_ext-makefile_fix.patch
 	epatch ${FILESDIR}/cairo-failed-patch.patch
+	epatch ${FILESDIR}/068_firefox-nss-gentoo-fix.patch
+	epatch ${FILESDIR}/666_mozilla-glitz-cairo.patch
+	epatch ${FILESDIR}/888_fix_nss_fix_389872.patch
+
 	if use ppc && [[ "${PROFILE_ARCH}" == ppc64 ]]; then
 		sed -i -e "s#OS_TEST=\`uname -m\`\$#OS_TEST=${ARCH}#" \
 			"${S}"/configure

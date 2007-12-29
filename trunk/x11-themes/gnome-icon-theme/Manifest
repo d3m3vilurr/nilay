@@ -1,0 +1,7 @@
+EBUILD gnome-icon-theme-2.99.0.ebuild 732 RMD160 6b095488a3bd7ecc891d01de45c1ef8d02292ff1 SHA1 f76107c225e5e7bfbcea7198faa872e5506db232 SHA256 74d2061c4d0c49cc20df719dea9efd1007ba33b180209598070ab7aeebff599e
+MD5 c90e8b3cfa4943be22d6c6afbd2fb1e9 gnome-icon-theme-2.99.0.ebuild 732
+RMD160 6b095488a3bd7ecc891d01de45c1ef8d02292ff1 gnome-icon-theme-2.99.0.ebuild 732
+SHA256 74d2061c4d0c49cc20df719dea9efd1007ba33b180209598070ab7aeebff599e gnome-icon-theme-2.99.0.ebuild 732
+MD5 d41d8cd98f00b204e9800998ecf8427e files/digest-gnome-icon-theme-2.99.0 0
+RMD160 9c1185a5c5e9fc54612808977ee8f548b2258d31 files/digest-gnome-icon-theme-2.99.0 0
+SHA256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855 files/digest-gnome-icon-theme-2.99.0 0
