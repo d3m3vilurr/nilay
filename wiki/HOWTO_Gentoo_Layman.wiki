@@ -11,37 +11,37 @@ nilay svn을 Gentoo Layman 에 추가시켜 사용하는 방법을 설명하겠�
 
 = Overlay 설정 =
 
-1. * Overlay를 설정 하고 체크아웃 하기 위해서는 layman을 설치해야합니다.
+1. * Overlay를 설정 하고 체크아웃 하기 위해서는 layman을 설치해야합니다.*
 ||# emerge layman||
 
-2. *이제 layman.cfg를 수정합니다.
+2. *이제 layman.cfg를 수정합니다.*
 ||# nano /etc/layman/layman.cfg||
 
-3. *아래와 같은 부분을 찾아서
+3. *아래와 같은 부분을 찾아서*
 ||overlays  : http://www.gentoo.org/proj/en/overlays/layman-global.txt|| 
 
-*오른쪽 주소를 바로 밑줄에 추가해줍니다.
-* http://tmp.sjkoon.com/overlay.xml *
+*오른쪽 주소를 바로 밑줄에 추가해줍니다.*
+ http://tmp.sjkoon.com/overlay.xml 
 
-4. *아래와 같은 부분을 찾아서
+4. *아래와 같은 부분을 찾아서*
 ||nocheck : yes||
-*로 바꿉니다.
+*로 바꿉니다.*
 
-5. *layman Overlay 리스트를 갱신합니다.
+5. *layman Overlay 리스트를 갱신합니다.*
 ||# layman -f||
 
-6. *layman Overlay 리스트를 확인합니다.
+6. *layman Overlay 리스트를 확인합니다.*
 ||# layman -L||
 
-* nilay                     [Subversion] (source: http://nilay.googlecode.co...)
-*부분이 보이십니까?
+ nilay                     [Subversion] (source: http://nilay.googlecode.co...)
+*부분이 보이십니까?*
  
-7. *이제 nilay Overlay를 추가합니다.
+7. *이제 nilay Overlay를 추가합니다.*
 ||# layman -a nilay||
 
 이제  nilay Overlay를 사용하실수 있습니다!
 
-*수고 많으셨습니다 :)
+*수고 많으셨습니다 :)*
 
 
 * 조언 : 오버레이는 주기적으로 업데이트를 해줘야 합니다.
