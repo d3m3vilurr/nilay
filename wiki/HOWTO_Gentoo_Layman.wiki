@@ -23,9 +23,8 @@ nilay svn을 Gentoo Layman 에 추가시켜 사용하는 방법을 설명하겠�
 *오른쪽 주소를 바로 밑줄에 추가해줍니다.*
  http://tmp.sjkoon.com/overlay.xml 
 
-4. *아래와 같은 부분을 찾아서*
-||nocheck : yes||
-*로 바꿉니다.*
+4. *nocheck 부분을 찾아서 아래와 같이 바꿉니다.*
+||nocheck : yes|| 
 
 5. *layman Overlay 리스트를 갱신합니다.*
 ||# layman -f||
