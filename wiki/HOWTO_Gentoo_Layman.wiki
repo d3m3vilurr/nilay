@@ -5,10 +5,9 @@
 
 nilay svn을 Gentoo Layman 에 추가시켜 사용하는 방법을 설명하겠습니다.
 
-* 들어가기전에... 
+|| *들어가기전에... ||
 
- ※ 오버레이 안에는 불안정한 ebuild 혹은 개발중인 ebuild가 있을 수 있으니 _*확신이 가는 ebuild 만 emerge 해주십시오. _*
-
+||※ 오버레이 안에는 불안정한 ebuild 혹은 개발중인 ebuild가 있을 수 있으니 _*확신이 가는 ebuild 만 emerge 해주십시오. _||
 = Overlay 설정 =
 
 1. * Overlay를 설정 하고 체크아웃 하기 위해서는 layman을 설치해야합니다.*
