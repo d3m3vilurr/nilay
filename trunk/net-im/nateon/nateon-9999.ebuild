@@ -52,7 +52,7 @@ src_unpack() {
 	cd "${S}"
 }
 src_compile() {
-	if ! use no-messagebox ; then
+	if  use no-messagebox ; then
 		mycmakeargs="-DWITHOUT_MESSAGEBOX=ON"
 fi
 
