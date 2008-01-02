@@ -1,0 +1,11 @@
++++ mozilla/gfx/thebes/src/gfxPDFSurface.cpp	2007-11-24 09:49:10.000000000 +0900
+--- mozilla/gfx/thebes/src/gfxPDFSurface.cpp.orig	2007-11-24 09:48:43.000000000 +0900
+@@ -91,7 +91,7 @@
+ nsresult
+ gfxPDFSurface::EndPage()
+ {
++    /*cairo_surface_show_page(CairoSurface());*/
+-    cairo_surface_show_page(CairoSurface());
+     return NS_OK;
+ }
+ 
