@@ -32,9 +32,10 @@ nilay svn을 Gentoo Layman 에 추가시켜 사용하는 방법을 설명하겠�
 6. *layman Overlay 리스트를 확인합니다.*
 ||# layman -L||
 
- nilay                     [Subversion] (source: http://nilay.googlecode.co...)
-*부분이 보이십니까?*
+|| nilay         [Subversion] (source: http://nilay.googlecode.co...)||
+*아래와 같이 나오면 여태까지 하신 설정이 적용된것입니다.
  
+
 7. *이제 nilay Overlay를 추가합니다.*
 ||# layman -a nilay||
 
