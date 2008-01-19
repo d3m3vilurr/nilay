@@ -9,6 +9,7 @@ inherit cmake-utils kde
 
 MY_PN="nateon"
 MY_MAJOR_VER="1.0beta"
+MY_TRUE_VER="1.0"
 MY_MINOR_VER="20080117"
 MY_SVN_VER="svn102"
 # NOTICE: SVN_VER included in src filename instead of MINOR_VER
@@ -43,7 +44,7 @@ RDEPEND="${DEPEND}"
 
 RESTRICT="mirror"
 
-S="${WORKDIR}/${MY_PN}-${MY_MAJOR_VER}"
+S="${WORKDIR}/${MY_TRUE_VER}"
 
 src_compile() {
 	if use no-messagebox ; then
