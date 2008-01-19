@@ -43,7 +43,7 @@ RDEPEND="${DEPEND}"
 
 RESTRICT="mirror"
 
-S="${WORKDIR}/${MY_PN}-${MY_MAJORVER}"
+S="${WORKDIR}/${MY_PN}-${MY_MAJOR_VER}"
 
 src_compile() {
 	if use no-messagebox ; then
