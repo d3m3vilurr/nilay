@@ -13,7 +13,7 @@ HOMEPAGE="http://www.xchat.org/"
 LICENSE="GPL-2"
 SLOT="2"
 KEYWORDS="alpha amd64 hppa ia64 mips ppc ppc64 sparc x86 ~x86-fbsd"
-IUSE="perl dbus tcl python ssl mmx ipv6 libnotify nls spell xchatnogtk xchatdccserver transparency"
+IUSE="perl dbus tcl python ssl mmx ipv6 libnotify nopango nls spell xchatnogtk xchatdccserver transparency"
 
 RDEPEND=">=dev-libs/glib-2.6.0
 	!xchatnogtk? ( >=x11-libs/gtk+-2.10.0 )
@@ -35,7 +35,11 @@ src_unpack() {
 	cd "${S}"
 
 	use xchatdccserver && epatch "${DISTDIR}"/xchat-dccserver-0.6.patch.bz2
-
+	if ! use nopango; then
+		ewarn "Recent system with pango has problem with xchat."
+		ewarn "nopango flag would be helpful. But you had disabled this."
+		ewarn "If you experience unstable xchat, Plz set flag and rebuild."
+	fi
 	# use libdir/xchat/plugins as the plugin directory
 	if [ $(get_libdir) != "lib" ] ; then
 		sed -i -e 's:${prefix}/lib/xchat:${libdir}/xchat:' \
@@ -78,6 +82,7 @@ src_compile() {
 		$(use_enable ipv6) \
 		$(use_enable nls) \
 		$(use_enable dbus) \
+		$(use_enable nopango xft) \
 		$(use_enable spell spell static) \
 		$(use_enable !xchatnogtk gtkfe) \
 		|| die "econf failed"
