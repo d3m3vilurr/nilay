@@ -40,22 +40,20 @@
  SHARED_LIBRARY_LIBS += $(DIST)/lib/$(LIB_PREFIX)mozglitzagl.$(LIB_SUFFIX)
 --- configure.in.orig	2007-04-27 06:24:26.000000000 +0200
 +++ configure.in	2007-04-27 06:24:04.000000000 +0200
-@@ -7280,9 +7280,13 @@
-            fi
-        fi
-    else
--      PKG_CHECK_MODULES(CAIRO, cairo >= $CAIRO_VERSION freetype2 fontconfig)
-+      if test "$MOZ_ENABLE_GLITZ"; then
-+          PKG_CHECK_MODULES(CAIRO, cairo >= $CAIRO_VERSION glitz-glx glitz freetype2 fontconfig)
-+      else
-+          PKG_CHECK_MODULES(CAIRO, cairo >= $CAIRO_VERSION freetype2 fontconfig)
-+      fi
-       MOZ_CAIRO_CFLAGS=$CAIRO_CFLAGS
--      MOZ_CAIRO_LIBS=$CAIRO_LIBS
-+      MOZ_CAIRO_LIBS=$CAIRO_LIBS 
-    fi
+@@ -6981,7 +6981,11 @@
+         fi
+     fi
+ else
+-   PKG_CHECK_MODULES(CAIRO, cairo >= $CAIRO_VERSION freetype2 fontconfig)
++   if test "$MOZ_ENABLE_GLITZ"; then
++       PKG_CHECK_MODULES(CAIRO, cairo >= $CAIRO_VERSION glitz-glx glitz freetype2 fontconfig)
++   else
++       PKG_CHECK_MODULES(CAIRO, cairo >= $CAIRO_VERSION freetype2 fontconfig)
++   fi
+    MOZ_CAIRO_CFLAGS=$CAIRO_CFLAGS
+    MOZ_CAIRO_LIBS=$CAIRO_LIBS
  fi
- 
+
 --- widget/src/gtk2/Makefile.in.orig	2007-06-18 00:29:12.000000000 +0200
 +++ widget/src/gtk2/Makefile.in	2007-06-18 00:30:04.000000000 +0200
 @@ -129,6 +129,7 @@
