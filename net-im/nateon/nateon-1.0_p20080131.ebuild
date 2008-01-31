@@ -18,7 +18,7 @@ PKG_SUFFIX=""
 
 DESCRIPTION="SK Communication Nateon Messenger for Linux"
 HOMEPAGE="http://kldp.net/projects/nateon"
-SRC_URI="http://tmp.sjkoon.com/pds/${MY_P}.tar.gz"
+SRC_URI="http://tmp.sjkoon.com/pds/${MY_P}.tar.bz2"
 
 LICENSE="GPL-3"
 KEYWORDS="~amd64 ~x86 ~ppc"
