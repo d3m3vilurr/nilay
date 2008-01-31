@@ -162,8 +162,18 @@ src_compile() {
 	mozconfig_annotate '' --with-system-jpeg
 	mozconfig_annotate '' --with-x
 	mozconfig_annotate '' --enable-system-cairo
-	mozconfig_annotate '' --enable-image-decoders=all
-	mozconfig_annotate '' --enable-image-encoders=all
+	# changed 195639
+	mozconfig_annotate '' --enable-image-decoders=default
+	#mozconfig_annotate '' --enable-image-encoders=default
+	# added sqlite3
+	mozconfig_annotate '' --enable-system-sqlite3
+	# safe browsing features
+	mozconfig_annotate '' --enable-safe-browsing
+	# javascript optimizer(?)
+	mozconfig_annotate '' --enable-js-ultrasparc
+	mozconfig_annotate '' --enable-necko-small-buffers
+	# --enable-optimize=[OPT] Specify compiler optimization flags [OPT=-O]
+
 	# iconv support, ㅄ
 	if use uconv; then
 		mozconfig_annotate '' --enable-native-uconv
@@ -176,7 +186,7 @@ src_compile() {
 	# Garbage collector
 	# mozconfig_annotate '' --enable-boehm
 	# Corel/Eazel profiler support
-	mozconfig_annotate '' --enable-eazel-profiler-support
+	#mozconfig_annotate '' --enable-eazel-profiler-support
 
 
 	if use startup-notification; then
