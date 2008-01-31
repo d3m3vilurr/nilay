@@ -44,7 +44,7 @@ RDEPEND="${DEPEND}"
 
 RESTRICT="mirror"
 
-S="${WORKDIR}/${MY_TRUE_VER}"
+S="${WORKDIR}/${MY_PN}-${MY_TRUE_VER}"
 
 src_compile() {
 	if use no-messagebox ; then
