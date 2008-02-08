@@ -6,12 +6,12 @@ WANT_AUTOCONF="2.1"
 
 inherit flag-o-matic toolchain-funcs eutils mozconfig-2 mozilla-launcher makeedit multilib fdo-mime mozextension autotools
 
-MPV="3.0b2"
+MPV="3.0b3"
 #LANGS="ja ko"
 # ka lt
-LANGS="be cs de el es-ES fi fr fy-NL gu-IN ja ko nl pl ru sk sv-SE uk zh-CN"
+LANGS="ar be ca cs de es-ES eu fi fr fy-NL ga-IE gu-IN he hu it ja-JP-mac ja ko lt nb-NO nl pa-IN pl pt-BR pt-PT ro ru sk sv-SE tr uk zh-CN zh-TW"
 
-DESCRIPTION="Firefox Web Browser (with nidev's patch)"
+DESCRIPTION="Firefox Web Browser. nightly build edition, by nidev."
 HOMEPAGE="http://www.mozilla.org/projects/firefox/"
 
 KEYWORDS="~amd64 ~sparc ~x86"
@@ -19,7 +19,7 @@ SLOT="0"
 LICENSE="MPL-1.1 NPL-1.1"
 IUSE="java mozdevelop xforms bindist restrict-javascript startup-notification glitz mozbranding uconv"
 
-SRC_URI="http://dev.gentooexperimental.org/~armin76/dist/mozilla-firefox-3.0_pre20080130.tar.bz2"
+SRC_URI="ftp://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/${MPV}-candidates/rc3/firefox-${MPV}-source.tar.bz2"
 #SRC_URI="http://releases.mozilla.org/pub/mozilla.org/firefox/releases/${MPV}/source/firefox-${MPV}-source.tar.bz2"
 # http://dev.gentooexperimental.org/~anarchy/dist/${PATCH}.tar.bz2"
 
@@ -31,23 +31,23 @@ SRC_URI="http://dev.gentooexperimental.org/~armin76/dist/mozilla-firefox-3.0_pre
 # for i in $LANGS $SHORTLANGS; do wget $i.xpi -O ${P}-$i.xpi; done
 for X in ${LANGS} ; do
 	SRC_URI="${SRC_URI}
-		linguas_${X/-/_}?(http://dev.gentooexperimental.org/~armin76/dist/${PN}-${MPV}-xpi/${PN}-${MPV}-${X}.xpi )"
+	linguas_${X/-/_}?(ftp://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/${MPV}-candidates/rc3/linux-xpi/${X}.xpi )"
 	IUSE="${IUSE} linguas_${X/-/_}"
 	# english is handled internally
 	if [ "${#X}" == 5 ] && ! has ${X} ${NOSHORTLANGS}; then
 		SRC_URI="${SRC_URI}
 			linguas_${X%%-*}?
-			(http://dev.gentooexperimental.org/~armin76/dist/${PN}-${MPV}-xpi/${PN}-${MPV}-${X}.xpi )"
+			(ftp://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/${MPV}-candidates/rc3/linux-xpi/${X}.xpi )"
 		IUSE="${IUSE} linguas_${X%%-*}"
 	fi
 done
 
 RDEPEND="java? ( virtual/jre )
-	>=www-client/mozilla-launcher-1.39
-	>=sys-devel/binutils-2.16.1
-	>=dev-libs/nss-3.12_alpha1
-	>=dev-db/sqlite-3.1.1
-	>=dev-libs/nspr-4.7.0_pre20071016"
+	>=www-client/mozilla-launcher-1.55
+	>=sys-devel/binutils-2.18
+	>=dev-libs/nss-3.12_rc3
+	>=dev-db/sqlite-3.5.0
+	>=dev-libs/nspr-4.7.0_rc1"
 
 DEPEND="${RDEPEND}
 	java? ( >=dev-java/java-config-0.2.0 )
@@ -103,7 +103,7 @@ src_unpack() {
 
 	linguas
 	for X in ${linguas}; do
-		[[ ${X} != "en" ]] && xpi_unpack "${PN}-${MPV}-${X}.xpi"
+		[[ ${X} != "en" ]] && xpi_unpack "${X}.xpi"
 	done
 
 	cd "${S}"
@@ -122,14 +122,14 @@ src_unpack() {
 	# -- hansmi, 2005-11-13
 	einfo "Patching from nidev\'s patches."
 	epatch ${FILESDIR}/nidev-typeahead_ext-makefile_fix.patch
-	epatch ${FILESDIR}/cairo-failed-patch.patch
+	#epatch ${FILESDIR}/cairo-failed-patch.patch
 	einfo "Patching from mozilla overlay patches."
 	#epatch ${FILESDIR}/patch_for_stable-cairo1.patch
 	#epatch ${FILESDIR}/patch_for_stable-cairo2.patch
 	#epatch ${FILESDIR}/666_mozilla-glitz-cairo.patch
 	#epatch ${FILESDIR}/666_mozilla-glitz-cairo-v2.patch
 	epatch ${FILESDIR}/998_install_icon-v2.patch
-	#epatch ${FILESDIR}/060_ssl-errorpage-bz411037.patch
+	##epatch ${FILESDIR}/060_ssl-errorpage-bz411037.patch
 	#epatch ${FILESDIR}/067_firefox-g_thread_init.patch
 	ewarn "sqlite3 patch applied."
 	epatch ${FILESDIR}/101_system_sqlite3.patch
@@ -164,7 +164,7 @@ src_compile() {
 	mozconfig_annotate '' --with-system-png
 	mozconfig_annotate '' --with-system-jpeg
 	mozconfig_annotate '' --with-x
-	#mozconfig_annotate '' --enable-system-cairo
+	mozconfig_annotate '' --enable-system-cairo
 	# changed 195639
 	mozconfig_annotate '' --enable-image-decoders=default
 	#mozconfig_annotate '' --enable-image-encoders=default
@@ -197,16 +197,15 @@ src_compile() {
 	fi
 
 	if use glitz; then
-		ewarn "Glitz GL enabled."
-		ewarn "Some older VGA users may experience lower performance."
-		mozconfig_annotate '' --enable-glitz
+		ewarn "For testing, we can't support cairo-glitz any more. sorry."
+		#ewarn "Glitz GL enabled."
+		#ewarn "Some older VGA users may experience lower performance."
+		#mozconfig_annotate '' --enable-glitz
 	fi
 
 	if use java; then
 		mozconfig_annotate '' --enable-javaxpcom
 	fi
-	
-
 	
 	if use xforms; then
 		mozconfig_annotate '' --enable-extensions=default,xforms,schema-validation,typeaheadfind
@@ -288,7 +287,7 @@ src_install() {
 
 	linguas
 	for X in ${linguas}; do
-		[[ ${X} != "en" ]] && xpi_install "${WORKDIR}"/"${PN}-${MPV}-${X}"
+		[[ ${X} != "en" ]] && xpi_install "${WORKDIR}"/"${X}"
 	done
 
 	local LANG=${linguas%% *}
