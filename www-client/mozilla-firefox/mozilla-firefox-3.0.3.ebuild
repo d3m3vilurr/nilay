@@ -6,19 +6,26 @@ WANT_AUTOCONF="2.1"
 
 inherit flag-o-matic toolchain-funcs eutils mozconfig-2 mozilla-launcher makeedit multilib fdo-mime mozextension autotools
 
-MPV="3.0b1"
-LANGS="ja ko"
-LANGS="be cs de el es-ES fi fr fy-NL gu-IN ja ka ko lt nl pl ru sk sv-SE uk zh-CN"
+MPV="3.0b3"
+#LANGS="ja ko"
+# ka lt
+# !!!!!
+# Not supported in official, but supported in nightly build.
+# ja-JP-mac
+# Not supported in nightly, but supported in offical.
+# ka
+LANGS="ar be ca cs de es-ES eu fi fr fy-NL ga-IE gu-IN he hu it ja ka ko lt nb-NO nl pa-IN pl pt-BR pt-PT ro ru sk sv-SE tr uk zh-CN zh-TW"
 
-DESCRIPTION="Firefox Web Browser (with nidev's patch)"
+DESCRIPTION="Firefox Web Browser."
 HOMEPAGE="http://www.mozilla.org/projects/firefox/"
 
 KEYWORDS="~amd64 ~sparc ~x86"
 SLOT="0"
 LICENSE="MPL-1.1 NPL-1.1"
-IUSE="java mozdevelop xforms bindist restrict-javascript startup-notification glitz"
+IUSE="java mozdevelop xforms bindist restrict-javascript startup-notification glitz mozbranding uconv"
 
-SRC_URI="http://releases.mozilla.org/pub/mozilla.org/firefox/releases/${MPV}/firefox-${MPV}-source.tar.bz2"
+#SRC_URI="ftp://ftp.mozilla.org/pub/mozilla.org/firefox/nightly/${MPV}-candidates/rc3/firefox-${MPV}-source.tar.bz2"
+SRC_URI="http://releases.mozilla.org/pub/mozilla.org/firefox/releases/${MPV}/source/firefox-${MPV}-source.tar.bz2"
 # http://dev.gentooexperimental.org/~anarchy/dist/${PATCH}.tar.bz2"
 
 
@@ -27,24 +34,27 @@ SRC_URI="http://releases.mozilla.org/pub/mozilla.org/firefox/releases/${MPV}/fir
 #  http://releases.mozilla.org/pub/mozilla.org/firefox/releases/${PV}/linux-i686/xpi/
 #
 # for i in $LANGS $SHORTLANGS; do wget $i.xpi -O ${P}-$i.xpi; done
+# path is fixed.
+# official -> http://nidev.kkaul.com/ff_xpis/firefox-${MPV}-${X}.xpi
 for X in ${LANGS} ; do
 	SRC_URI="${SRC_URI}
-		linguas_${X/-/_}?(http://dev.gentooexperimental.org/~armin76/dist/${PN}-${MPV}-xpi/${PN}-${MPV}-${X}.xpi )"
+	linguas_${X/-/_}?(http://nidev.kkaul.com/ff_xpis/firefox-${MPV}-${X}.xpi )"
 	IUSE="${IUSE} linguas_${X/-/_}"
 	# english is handled internally
 	if [ "${#X}" == 5 ] && ! has ${X} ${NOSHORTLANGS}; then
 		SRC_URI="${SRC_URI}
 			linguas_${X%%-*}?
-			(http://dev.gentooexperimental.org/~armin76/dist/${PN}-${MPV}-xpi/${PN}-${MPV}-${X}.xpi )"
+			(http://nidev.kkaul.com/ff_xpis/firefox-${MPV}-${X}.xpi )"
 		IUSE="${IUSE} linguas_${X%%-*}"
 	fi
 done
 
 RDEPEND="java? ( virtual/jre )
-	>=www-client/mozilla-launcher-1.39
-	>=sys-devel/binutils-2.16.1
-	>=dev-libs/nss-3.12_alpha1
-	>=dev-libs/nspr-4.7.0_pre20071016"
+	>=www-client/mozilla-launcher-1.55
+	>=sys-devel/binutils-2.18
+	>=dev-libs/nss-3.12_rc3
+	>=dev-db/sqlite-3.5.0
+	>=dev-libs/nspr-4.7.0_rc1"
 
 DEPEND="${RDEPEND}
 	java? ( >=dev-java/java-config-0.2.0 )
@@ -78,16 +88,15 @@ linguas() {
 }
 
 pkg_setup(){
+	use mozbranding
 	if ! built_with_use x11-libs/cairo X; then
 		eerror "Cairo is not built with X useflag."
 		eerror "Please add 'X' to your USE flags, and re-emerge cairo."
 		die "Cairo needs X"
 	fi
-
 	if use bindist; then
 		ewarn "Mozilla branding is disabled."
 	else
-		use mozbranding
 		ewarn "Mozilla branding is enabled by default. You should not re-distribute this package."
 	fi
 	use moznopango && warn_mozilla_launcher_stub
@@ -99,7 +108,7 @@ src_unpack() {
 
 	linguas
 	for X in ${linguas}; do
-		[[ ${X} != "en" ]] && xpi_unpack "${PN}-${MPV}-${X}.xpi"
+		[[ ${X} != "en" ]] && xpi_unpack "firefox-${MPV}-${X}.xpi"
 	done
 
 	cd "${S}"
@@ -116,12 +125,13 @@ src_unpack() {
 	# Fix a compilation issue using the 32-bit userland with 64-bit kernel on
 	# PowerPC, because with that configuration, it detects a ppc64 system.
 	# -- hansmi, 2005-11-13
+	einfo "Patching from nidev\'s patches."
 	epatch ${FILESDIR}/nidev-typeahead_ext-makefile_fix.patch
-	epatch ${FILESDIR}/cairo-failed-patch.patch
-	#epatch ${FILESDIR}/patch_for_stable-cairo1.patch
-	#epatch ${FILESDIR}/patch_for_stable-cairo2.patch
-	epatch ${FILESDIR}/666_mozilla-glitz-cairo.patch
-	epatch ${FILESDIR}/888_fix_nss_fix_389872.patch 
+	einfo "Patching from mozilla overlay patches."
+	epatch ${FILESDIR}/998_install_icon-v2.patch
+	ewarn "sqlite3 patch applied."
+	epatch ${FILESDIR}/101_system_sqlite3.patch
+	# It has error?
 	epatch ${FILESDIR}/068_firefox-nss-gentoo-fix.patch
 	if use ppc && [[ "${PROFILE_ARCH}" == ppc64 ]]; then
 		sed -i -e "s#OS_TEST=\`uname -m\`\$#OS_TEST=${ARCH}#" \
@@ -139,26 +149,55 @@ src_compile() {
 	mozconfig_config
 
 	mozconfig_annotate '' --enable-application=browser
-	mozconfig_annotate '' --enable-image-encoder=all
+	#mozconfig_annotate '' --enable-image-encoder=all
 	mozconfig_annotate '' --enable-canvas
 	mozconfig_annotate '' --with-system-nspr
 	mozconfig_annotate '' --with-system-nss
 	mozconfig_annotate '' --enable-default-toolkit=cairo-gtk2
 	mozconfig_annotate '' --enable-svg-renderer=cairo
 	mozconfig_annotate '' --with-system-png
+	mozconfig_annotate '' --with-system-jpeg
 	mozconfig_annotate '' --with-x
 	mozconfig_annotate '' --enable-system-cairo
-	mozconfig_annotate '' --enable-image-decoders=all
-	#mozconfig_annotate '' --enable-image-encoders=all
+	# changed 195639
+	mozconfig_annotate '' --enable-image-decoders=default
+	#mozconfig_annotate '' --enable-image-encoders=default
+	# added sqlite3
+	mozconfig_annotate '' --enable-system-sqlite3
+	# safe browsing features
+	mozconfig_annotate '' --enable-safe-browsing
+	# javascript optimizer(?)
+	mozconfig_annotate '' --enable-js-ultrasparc
+	mozconfig_annotate '' --enable-necko-small-buffers
+	# --enable-optimize=[OPT] Specify compiler optimization flags [OPT=-O]
+
+	# iconv support, ㅄ
+	if use uconv; then
+		mozconfig_annotate '' --enable-native-uconv
+		ewarn "Uconv feature has critical problem at CJK Langauge."
+		ewarn "It is not recommended. If you are using multibyte charset,"
+		ewarn "You MUST remove this flag."
+	fi
+	# url classifier module
+	mozconfig_annotate '' --enable-url-classifier
+	# Garbage collector
+	# mozconfig_annotate '' --enable-boehm
+	# Corel/Eazel profiler support
+	#mozconfig_annotate '' --enable-eazel-profiler-support
+
+
+	if use startup-notification; then
+		mozconfig_annotate '' --enable-startup-notification
+	fi
+
 	if use glitz; then
+		ewarn "For testing, we can't support cairo-glitz any more. sorry."
 		mozconfig_annotate '' --enable-glitz
 	fi
 
 	if use java; then
 		mozconfig_annotate '' --enable-javaxpcom
 	fi
-	
-
 	
 	if use xforms; then
 		mozconfig_annotate '' --enable-extensions=default,xforms,schema-validation,typeaheadfind
@@ -240,7 +279,7 @@ src_install() {
 
 	linguas
 	for X in ${linguas}; do
-		[[ ${X} != "en" ]] && xpi_install "${WORKDIR}"/"${PN}-${MPV}-${X}"
+		[[ ${X} != "en" ]] && xpi_install "${WORKDIR}"/"firefox-${MPV}-${X}"
 	done
 
 	local LANG=${linguas%% *}
