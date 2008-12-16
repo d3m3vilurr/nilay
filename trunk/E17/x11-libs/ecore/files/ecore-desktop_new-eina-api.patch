@@ -1,0 +1,96 @@
+--- src/lib/ecore_desktop/ecore_desktop.c.original	2008-12-15 14:17:24.000000000 +0900
++++ src/lib/ecore_desktop/ecore_desktop.c	2008-12-15 14:37:37.000000000 +0900
+@@ -117,7 +117,7 @@
+ 		     c++;
+ 		  *c++ = '\0';
+ 		  /* FIXME: should strip space at end, then unescape value. */
+-		  eina_hash_del(current, key);
++		  eina_hash_del(result, current, key);
+ 		  if (value[0] != '\0')
+ 		    eina_hash_add(current, key, strdup(value));
+ #ifdef DEBUG
+@@ -182,7 +182,7 @@
+ 	  {
+ 	     if (st.st_mtime > result->mtime)
+ 	       {
+-		  eina_hash_del(desktop_cache, result->original_path);
++		  eina_hash_del(result, desktop_cache, result->original_path);
+ 		  result = NULL;
+ 	       }
+ 	     stated = 1;
+@@ -587,17 +587,20 @@
+ 	  eina_hash_add(desktop->group, "X-Enlightenment-IconTheme",
+ 			strdup(desktop->icon_theme));
+ 	else
+-	  eina_hash_del(desktop->group, "X-Enlightenment-IconTheme");
++	  eina_hash_del(desktop->group, "X-Enlightenment-IconTheme",
++                  strdup(desktop->icon_theme));
+ 	if (desktop->icon_class)
+ 	  eina_hash_add(desktop->group, "X-Enlightenment-IconClass",
+ 			strdup(desktop->icon_class));
+ 	else
+-	  eina_hash_del(desktop->group, "X-Enlightenment-IconClass");
++	  eina_hash_del(desktop->group, "X-Enlightenment-IconClass",
++                  strdup(desktop->icon_class));
+ 	if (desktop->icon_path)
+ 	  eina_hash_add(desktop->group, "X-Enlightenment-IconPath",
+ 			strdup(desktop->icon_path));
+ 	else
+-	  eina_hash_del(desktop->group, "X-Enlightenment-IconPath");
++	  eina_hash_del(desktop->group, "X-Enlightenment-IconPath",
++                  strdup(desktop->icon_path));
+ 	if (desktop->window_class)
+ 	  eina_hash_add(desktop->group, "StartupWMClass",
+ 			strdup(desktop->window_class));
+@@ -608,36 +611,43 @@
+ 	  eina_hash_add(desktop->group, "X-Enlightenment-WindowName",
+ 			strdup(desktop->window_name));
+ 	else
+-	  eina_hash_del(desktop->group, "X-Enlightenment-WindowName");
++	  eina_hash_del(desktop->group, "X-Enlightenment-WindowName",
++                  strdup(desktop->window_name));
+ 	if (desktop->window_title)
+ 	  eina_hash_add(desktop->group, "X-Enlightenment-WindowTitle",
+ 			strdup(desktop->window_title));
+ 	else
+-	  eina_hash_del(desktop->group, "X-Enlightenment-WindowTitle");
++	  eina_hash_del(desktop->group, "X-Enlightenment-WindowTitle",
++                  strdup(desktop->window_title));
+ 	if (desktop->window_role)
+ 	  eina_hash_add(desktop->group, "X-Enlightenment-WindowRole",
+ 			strdup(desktop->window_role));
+ 	else
+-	  eina_hash_del(desktop->group, "X-Enlightenment-WindowRole");
+-	eina_hash_del(desktop->group, "X-KDE-StartupNotify");
++	  eina_hash_del(desktop->group, "X-Enlightenment-WindowRole",
++                  strdup(desktop->window_role));
++        /* it's needed but how can i fix it?
++         * desktop->(????)
++	eina_hash_del(desktop->group, "X-KDE-StartupNotify",
++            strdup(desktop-); */
+ 	if (desktop->wait_exit)
+ 	  eina_hash_add(desktop->group, "X-Enlightenment-WaitExit",
+ 			strdup("true"));
+ 	else
+-	  eina_hash_del(desktop->group, "X-Enlightenment-WaitExit");
++	  eina_hash_del(desktop->group, "X-Enlightenment-WaitExit",
++                  strdup("true"));
+ 	if (desktop->startup)
+ 	  eina_hash_add(desktop->group, "StartupNotify",
+ 			strdup("true"));
+ 	else
+-	  eina_hash_del(desktop->group, "StartupNotify");
++	  eina_hash_del(desktop->group, "StartupNotify", strdup("true"));
+ 	if (desktop->no_display)
+ 	  eina_hash_add(desktop->group, "NoDisplay", strdup("true"));
+ 	else
+-	  eina_hash_del(desktop->group, "NoDisplay");
++	  eina_hash_del(desktop->group, "NoDisplay", strdup("true"));
+ 	if (desktop->hidden)
+ 	  eina_hash_add(desktop->group, "Hidden", strdup("true"));
+ 	else
+-	  eina_hash_del(desktop->group, "Hidden");
++	  eina_hash_del(desktop->group, "Hidden", strdup("true"));
+ 
+ 	/* FIXME: deal with the ShowIn's and mime stuff. */
+ 

@@ -1,0 +1,11 @@
+--- common/mp4ff/mp4ff.h.orig	2008-11-29 13:41:20.000000000 +0900
++++ common/mp4ff/mp4ff.h	2008-11-29 13:41:31.000000000 +0900
+@@ -35,7 +35,7 @@
+ extern "C" {
+ #endif /* __cplusplus */
+ 
+-#include "mp4ff_int_types.h"
++#include "stdint.h"
+ 
+ /* file callback structure */
+ typedef struct

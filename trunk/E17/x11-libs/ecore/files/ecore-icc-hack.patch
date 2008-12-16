@@ -1,0 +1,11 @@
+--- src/lib/ecore/Ecore.h	2008-11-05 20:18:56.000000000 +0900
++++ src/lib/ecore/Ecore.h	2008-11-05 21:18:53.000000000 +0900
+@@ -55,7 +55,7 @@
+ #  include <signal.h>
+ # endif
+ #endif
+-
++#include <bits/siginfo.h>
+ #ifndef TRUE
+ # define TRUE 1
+ #endif

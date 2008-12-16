@@ -1,0 +1,249 @@
+--- src/lib/ecore_desktop/ecore_desktop_menu.c.original	2008-12-12 18:15:44.000000000 +0900
++++ src/lib/ecore_desktop/ecore_desktop_menu.c	2008-12-15 14:56:04.000000000 +0900
+@@ -104,6 +104,8 @@
+ 						 Ecore_Desktop_Tree * tree,
+ 						 int element, int level);
+ static int          _ecore_desktop_menu_is_include(const void *data, Ecore_Desktop_Tree * tree, int element, int level __UNUSED__);
++/* patched by nidev.
++ * type conflicted
+ static void         _ecore_desktop_menu_inherit_apps(void *value,
+ 						     void *user_data);
+ static void         _ecore_desktop_menu_select_app(void *value,
+@@ -114,7 +116,112 @@
+ 						    Ecore_Desktop_Tree * rule,
+ 						    char *key,
+ 						    Ecore_Desktop * desktop);
++                                                    */
++/* copied from bottom of original file (nidev) */
++static Eina_Bool
++_ecore_desktop_menu_inherit_apps(const Eina_Hash *hash, const void *key, void *value, void *user_data)
++{
++#ifdef DEBUG
++//   printf("CHECKING %s - %s\n", app, key);
++#endif
++   if (!eina_hash_find(user_data, key))
++      eina_hash_add(user_data, key, strdup(value));
++}
++/* copied from bottom of original file (nidev) */
++static int
++_ecore_desktop_menu_apply_rules(struct _ecore_desktop_menu_generate_data *generate_data, Ecore_Desktop_Tree * rule, char *key, Ecore_Desktop * desktop)
++{
++   char                type = 'O';
++   int                 result = FALSE;
++   int                 i;
++
++   for (i = 0; i < rule->size; i++)
++     {
++	if (rule->elements[i].type == ECORE_DESKTOP_TREE_ELEMENT_TYPE_TREE)
++	  {
++	     result = _ecore_desktop_menu_apply_rules(generate_data, (Ecore_Desktop_Tree *) rule->elements[i].element, key, desktop);
++	  }
++	else
++	  {
++	     char               *rul;
++	     char                match;
++	     int                 sub_result = FALSE;
++
++	     rul = (char *)rule->elements[i].element;
++	     type = rul[1];
++	     match = rul[2];
++	     switch (match)
++	       {
++	       case 'A':
++		  {
++		     sub_result = TRUE;
++		     break;
++		  }
++
++	       case 'F':
++		  {
++		     if (strcmp(key, &rul[4]) == 0)
++			sub_result = TRUE;
++		     break;
++		  }
++
++	       case 'C':
++		  {
++		     /* Try to match a category. */
++		     if ((desktop->Categories) && (eina_hash_find(desktop->Categories, &rul[4]) != NULL))
++		        sub_result = TRUE;
++		     break;
++		  }
++	       }
++	     switch (type)
++	       {
++	          case 'A':  result = TRUE;  if (!sub_result)  return FALSE;  break;
++	          case 'N':  result = TRUE;  if (sub_result)   return FALSE;  break;
++	          default:		     if (sub_result)   return TRUE;   break;
++	       }
++	  }
++     }
++
++   return result;
++}
++
++/* copied from bottom of original file (nidev) */
++static void
++_ecore_desktop_menu_select_app(const Eina_Hash *hash, const void *key, void *value, void *user_data)
++{
++   Ecore_Desktop      *desktop;
++   struct _ecore_desktop_menu_generate_data *generate_data;
++
++   generate_data = (struct _ecore_desktop_menu_generate_data *)user_data;
++
++   /* FIXME: pass an actuall language parameter. */
++   desktop = ecore_desktop_get(value, NULL);
++
++   if (desktop)
++     {
++	if ((generate_data->unallocated) && (desktop->allocated))
++	   return;
+ 
++	if (_ecore_desktop_menu_apply_rules(generate_data, generate_data->rule, key, desktop))
++	  {
++	     desktop->allocated = TRUE;
++	     if (generate_data->include)
++	       {
++		  eina_hash_add(generate_data->apps, key, strdup(value));
++#ifdef DEBUG
++		  printf("INCLUDING %s%s - %s\n", ((generate_data->unallocated) ? "UNALLOCATED " : ""), value, key);
++#endif
++	       }
++	     else
++	       {
++		  eina_hash_del(generate_data->apps, key, strdup(value));
++#ifdef DEBUG
++		  printf("EXCLUDING %s%s - %s\n", ((generate_data->unallocated) ? "UNALLOCATED " : ""), value, key);
++#endif
++	       }
++	  }
++     }
++}
+ /**
+  * @defgroup Ecore_Desktop_Menu_Group menu Functions
+  *
+@@ -1126,11 +1233,10 @@
+ 	   printf("PROBLEM - _ecore_desktop_menu_check_app(void *data, %s)\n",
+ 		  path);
+ #endif
+-     }
+-
+    return 0;
+ }
+ 
++
+ static int
+ _ecore_desktop_menu_merge(const void *data, Ecore_Desktop_Tree * tree,
+ 			  int element, int level)
+@@ -1575,111 +1681,6 @@
+ 
+    return 0;
+ }
+-
+-static Eina_Bool
+-_ecore_desktop_menu_inherit_apps(const Eina_Hash *hash, const void *key, void *value, void *user_data)
+-{
+-#ifdef DEBUG
+-//   printf("CHECKING %s - %s\n", app, key);
+-#endif
+-   if (!eina_hash_find(user_data, key))
+-      eina_hash_add(user_data, key, strdup(value));
+-}
+-
+-static void
+-_ecore_desktop_menu_select_app(const Eina_Hash *hash, const void *key, void *value, void *user_data)
+-{
+-   Ecore_Desktop      *desktop;
+-   struct _ecore_desktop_menu_generate_data *generate_data;
+-
+-   generate_data = (struct _ecore_desktop_menu_generate_data *)user_data;
+-
+-   /* FIXME: pass an actuall language parameter. */
+-   desktop = ecore_desktop_get(value, NULL);
+-
+-   if (desktop)
+-     {
+-	if ((generate_data->unallocated) && (desktop->allocated))
+-	   return;
+-
+-	if (_ecore_desktop_menu_apply_rules(generate_data, generate_data->rule, key, desktop))
+-	  {
+-	     desktop->allocated = TRUE;
+-	     if (generate_data->include)
+-	       {
+-		  eina_hash_add(generate_data->apps, key, strdup(value));
+-#ifdef DEBUG
+-		  printf("INCLUDING %s%s - %s\n", ((generate_data->unallocated) ? "UNALLOCATED " : ""), value, key);
+-#endif
+-	       }
+-	     else
+-	       {
+-		  eina_hash_del(generate_data->apps, key);
+-#ifdef DEBUG
+-		  printf("EXCLUDING %s%s - %s\n", ((generate_data->unallocated) ? "UNALLOCATED " : ""), value, key);
+-#endif
+-	       }
+-	  }
+-     }
+-}
+-
+-static int
+-_ecore_desktop_menu_apply_rules(struct _ecore_desktop_menu_generate_data *generate_data, Ecore_Desktop_Tree * rule, char *key, Ecore_Desktop * desktop)
+-{
+-   char                type = 'O';
+-   int                 result = FALSE;
+-   int                 i;
+-
+-   for (i = 0; i < rule->size; i++)
+-     {
+-	if (rule->elements[i].type == ECORE_DESKTOP_TREE_ELEMENT_TYPE_TREE)
+-	  {
+-	     result = _ecore_desktop_menu_apply_rules(generate_data, (Ecore_Desktop_Tree *) rule->elements[i].element, key, desktop);
+-	  }
+-	else
+-	  {
+-	     char               *rul;
+-	     char                match;
+-	     int                 sub_result = FALSE;
+-
+-	     rul = (char *)rule->elements[i].element;
+-	     type = rul[1];
+-	     match = rul[2];
+-	     switch (match)
+-	       {
+-	       case 'A':
+-		  {
+-		     sub_result = TRUE;
+-		     break;
+-		  }
+-
+-	       case 'F':
+-		  {
+-		     if (strcmp(key, &rul[4]) == 0)
+-			sub_result = TRUE;
+-		     break;
+-		  }
+-
+-	       case 'C':
+-		  {
+-		     /* Try to match a category. */
+-		     if ((desktop->Categories) && (eina_hash_find(desktop->Categories, &rul[4]) != NULL))
+-		        sub_result = TRUE;
+-		     break;
+-		  }
+-	       }
+-	     switch (type)
+-	       {
+-	          case 'A':  result = TRUE;  if (!sub_result)  return FALSE;  break;
+-	          case 'N':  result = TRUE;  if (sub_result)   return FALSE;  break;
+-	          default:		     if (sub_result)   return TRUE;   break;
+-	       }
+-	  }
+-     }
+-
+-   return result;
+-}
+-
+ /*
+ 
+ <Menu (tree)
