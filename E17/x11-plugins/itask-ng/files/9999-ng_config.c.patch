@@ -1,0 +1,198 @@
+--- src/ng_config.c.old	2008-09-14 19:09:11.000000000 +0300
++++ src/ng_config.c	2008-10-20 15:19:58.000000000 +0300
+@@ -22,7 +22,7 @@
+   
+   Evas_List *boxes;
+   
+-  Evas_Object *tlist;
++  Evas_Object *ilist;
+ 
+   Evas_Object *tlist_box;
+   Config_Box  *cfg_box;
+@@ -43,7 +43,7 @@
+ static void _cb_config(void *data, void *data2);
+ static void _cb_entry_ok(char *text, void *data);
+ static void _cb_confirm_dialog_yes(void *data);
+-static void _load_tlist(E_Config_Dialog_Data *cfdata);
++static void _load_ilist(E_Config_Dialog_Data *cfdata);
+ static void _show_label_cb_change(void *data, Evas_Object *obj);
+ static void _cb_slider_change(void *data, Evas_Object *obj);
+ static void _cb_check_if_launcher_source(void *data, Evas_Object *obj);
+@@ -107,7 +107,7 @@
+   cfdata->mouse_over_anim    = ci->mouse_over_anim;
+   cfdata->cfg = ci;
+ 
+-  cfdata->tlist = NULL;
++  cfdata->ilist = NULL;
+   cfdata->tlist_box = NULL;
+ }
+ 
+@@ -151,8 +151,8 @@
+   o = e_widget_list_add(evas, 0, 0);
+ 
+   of = e_widget_frametable_add(evas, D_("Bar Items"), 0);
+-  ol = e_widget_tlist_add(evas, NULL);
+-  cfdata->tlist = ol;
++  ol = e_widget_ilist_add(evas, 0, 0, NULL);
++  cfdata->ilist = ol;
+   _load_box_tlist(cfdata);
+   e_widget_min_size_set(ol, 130, 100);
+   e_widget_frametable_object_append(of, ol, 0, 0, 1, 1, 1, 1, 1, 1);
+@@ -560,7 +560,7 @@
+ _cb_box_del(void *data, void *data2)
+ {
+   E_Config_Dialog_Data *cfdata = (E_Config_Dialog_Data*) data;
+-  int selected = e_widget_tlist_selected_get(cfdata->tlist);
++  int selected = e_widget_ilist_selected_get(cfdata->ilist);
+    
+   if(selected < 0) return;
+ 
+@@ -601,9 +601,9 @@
+       cfdata->app_dir = strdup(cfdata->cfg_box->launcher_app_dir);
+      
+       of = e_widget_frametable_add(evas, D_("Launcher Settings"), 0);
+-      ol = e_widget_tlist_add(evas, &(cfdata->app_dir));
++      ol = e_widget_ilist_add(evas, 0, 0, &(cfdata->app_dir));
+       cfdata->tlist_box = ol;
+-      _load_tlist(cfdata);
++      _load_ilist(cfdata);
+       e_widget_min_size_set(ol, 140, 140);
+       e_widget_frametable_object_append(of, ol, 0, 0, 1, 2, 1, 1, 1, 1);
+ 
+@@ -690,7 +690,7 @@
+   E_Config_Dialog_View *v;
+   char buf[4096];
+ 
+-  int selected = e_widget_tlist_selected_get(cfdata->tlist);
++  int selected = e_widget_ilist_selected_get(cfdata->ilist);
+    
+   if (selected < 0) return;
+ 
+@@ -768,7 +768,7 @@
+ _cb_box_up(void *data, void *data2)
+ {
+   E_Config_Dialog_Data *cfdata = (E_Config_Dialog_Data*) data;
+-  int selected = e_widget_tlist_selected_get(cfdata->tlist);
++  int selected = e_widget_ilist_selected_get(cfdata->ilist);
+    
+   if(selected < 0) return;
+ 
+@@ -787,7 +787,7 @@
+    
+   _load_box_tlist(cfdata);
+ 
+-   e_widget_tlist_selected_set(cfdata->tlist, selected - 1);
++   e_widget_ilist_selected_set(cfdata->ilist, selected - 1);
+ }
+ 
+ 
+@@ -796,7 +796,7 @@
+ _cb_box_down(void *data, void *data2)
+ {
+   E_Config_Dialog_Data *cfdata = (E_Config_Dialog_Data*) data;
+-  int selected = e_widget_tlist_selected_get(cfdata->tlist);
++  int selected = e_widget_ilist_selected_get(cfdata->ilist);
+    
+   if(selected < 0) return;
+ 
+@@ -815,7 +815,7 @@
+ 
+   _load_box_tlist(cfdata);
+ 
+-   e_widget_tlist_selected_set(cfdata->tlist, selected + 1);
++   e_widget_ilist_selected_set(cfdata->ilist, selected + 1);
+ }
+ 
+ 
+@@ -825,7 +825,7 @@
+ {
+   char buf[4096];
+ 
+-  e_widget_tlist_clear(cfdata->tlist);
++  e_widget_ilist_clear(cfdata->ilist);
+ 
+   int cnt = 1;
+   Evas_List *l;
+@@ -841,24 +841,24 @@
+           snprintf(buf, sizeof(buf), "%i Launcher", cnt);
+           blub = strdup(buf);
+            
+-          e_widget_tlist_append(cfdata->tlist, blub, NULL, cfg_box, blub);
++          e_widget_ilist_append(cfdata->ilist, NULL, blub, NULL, cfg_box, blub);
+           break;
+ 
+         case taskbar:
+           snprintf(buf, sizeof(buf), "%i Taskbar", cnt);
+           blub = strdup(buf);
+-          e_widget_tlist_append(cfdata->tlist, blub, NULL, cfg_box, blub);
++          e_widget_ilist_append(cfdata->ilist, NULL, blub, NULL, cfg_box, blub);
+           break;
+ 
+ 	case gadcon:
+           snprintf(buf, sizeof(buf), "%i Gadcon", cnt);
+           blub = strdup(buf);
+-          e_widget_tlist_append(cfdata->tlist, blub, NULL, cfg_box, blub);
++          e_widget_ilist_append(cfdata->ilist, NULL, blub, NULL, cfg_box, blub);
+           break;
+         }
+       cnt++;
+     }
+-  e_widget_tlist_go(cfdata->tlist);
++  e_widget_ilist_go(cfdata->ilist);
+ }
+ 
+ 
+@@ -933,7 +933,7 @@
+ 	  }
+      }
+ 
+-   _load_tlist((E_Config_Dialog_Data*) data);
++   _load_ilist((E_Config_Dialog_Data*) data);
+ }
+ 
+ 
+@@ -949,20 +949,20 @@
+    if (ecore_file_is_dir(buf))
+      ecore_file_recursive_rm(buf);
+ 
+-   _load_tlist(cfdata);
++   _load_ilist(cfdata);
+ }
+ 
+ 
+ 
+ static void
+-_load_tlist(E_Config_Dialog_Data *cfdata)
++_load_ilist(E_Config_Dialog_Data *cfdata)
+ {
+    Ecore_List *dirs;
+    char buf[4096], *file;
+    int selnum = -1;
+    const char *home;
+ 
+-   e_widget_tlist_clear(cfdata->tlist_box);
++   e_widget_ilist_clear(cfdata->tlist_box);
+ 
+    home = e_user_homedir_get();
+    snprintf(buf, sizeof(buf), "%s/.e/e/applications/bar", home);
+@@ -980,7 +980,7 @@
+              snprintf(buf, sizeof(buf), "%s/.e/e/applications/bar/%s", home, file);
+ 	     if (ecore_file_is_dir(buf))
+ 	       {
+-		  e_widget_tlist_append(cfdata->tlist_box, file, NULL, NULL, file);
++		  e_widget_ilist_append(cfdata->tlist_box, NULL, file, NULL, NULL, file);
+ 		  if ((cfdata->app_dir) && (!strcmp(cfdata->app_dir, file)))
+ 		    selnum = i;
+ 		  i++;
+@@ -988,9 +988,9 @@
+ 	  }
+ 	ecore_list_destroy(dirs);
+      }
+-   e_widget_tlist_go(cfdata->tlist_box);
++   e_widget_ilist_go(cfdata->tlist_box);
+    if (selnum >= 0)
+-     e_widget_tlist_selected_set(cfdata->tlist_box, selnum);
++     e_widget_ilist_selected_set(cfdata->tlist_box, selnum);
+ }
+ 
+ /*

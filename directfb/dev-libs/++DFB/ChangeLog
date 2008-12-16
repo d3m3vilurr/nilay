@@ -1,0 +1,7 @@
+# ChangeLog for dev-libs/++DFB
+# Copyright 1999-2006 Gentoo Foundation; Distributed under the GPL v2
+# $Header: lucianm Exp $
+
+*++DFB-9999 (16 Apr 2007)
+  16 Apr 2007; Lucian Muresan < lucianm AT users DOT sourceforge DOT net >
+  pull from the DirectFB git repository, applying also local patches

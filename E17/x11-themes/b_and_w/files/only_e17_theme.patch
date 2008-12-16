@@ -1,0 +1,31 @@
+--- Makefile.orig	2008-10-19 19:44:46.000000000 +0900
++++ Makefile	2008-10-19 20:00:31.000000000 +0900
+@@ -1,7 +1,7 @@
+ EDJE_CC = edje_cc
+ EDJE_FLAGS = # -v
+ 
+-THEMES = b_and_w.edj illume.edj
++THEMES = b_and_w.edj
+ INITS = init.edj illume_init.edj
+ EXQUISITE = exquisite.edj
+ 
+@@ -21,17 +21,8 @@
+ 
+ install: all
+ 	for f in $(THEMES); do \
+-		rm -f ~/.e/e/themes/$$f; \
+-		cp $$f ~/.e/e/themes/$$f; \
+-	done
+-	for f in $(INITS); do \
+-		rm -f ~/.e/e/init/$$f; \
+-		cp $$f ~/.e/e/init/$$f; \
+-	done
+-	for f in $(EXQUISITE); do \
+-		rm -f ~/.exquisite/$$f; \
+-		mkdir -p ~/.exquisite; \
+-		cp $$f ~/.exquisite/$$f; \
++		rm -r /usr/share/enlightenment/data/themes/$$f; \
++		cp $$f /usr/share/enlightenment/data/themes/$$f; \
+ 	done
+ 
+ 
