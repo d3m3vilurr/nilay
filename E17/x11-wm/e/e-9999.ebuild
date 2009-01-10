@@ -6,7 +6,7 @@ inherit enlightenment
 
 DESCRIPTION="the e17 window manager"
 
-IUSE="pam dbus slow-desktop"
+IUSE="pam dbus slow-desktop exchange"
 
 RDEPEND="pam? ( sys-libs/pam )
 	dbus? ( x11-libs/e_dbus )"
@@ -17,6 +17,7 @@ DEPEND="${RDEPEND}
 	>=dev-libs/efreet-9999
 	>=dev-libs/embryo-9999
 	>=x11-libs/evas-9999
+	exchange? ( =dev-libs/exchange-9999 )
 	x11-proto/xproto
 	sys-devel/libtool"
 

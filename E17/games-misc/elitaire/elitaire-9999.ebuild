@@ -1,24 +1,15 @@
 # Copyright 1999-2007 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
-
-#ECVS_MODULE="e17/apps/elitaire"
-inherit enlightenment games
-
-DESCRIPTION="EFL based solitaire game"
-HOMEPAGE="http://www.mowem.de/elitaire"
-
+inherit games enlightenment
 DEPEND="x11-libs/ewl
 	media-libs/edje
 	dev-libs/eet
 	x11-libs/evas
 	x11-libs/ecore
 	x11-libs/esmart"
-
-pkg_setup() {
-	games_pkg_setup
-	enlightenment_pkg_setup
-}
+DESCRIPTION="EFL based solitaire game"
+HOMEPAGE="http://www.mowem.de/elitaire"
 
 src_compile() {
 	export MY_ECONF="
