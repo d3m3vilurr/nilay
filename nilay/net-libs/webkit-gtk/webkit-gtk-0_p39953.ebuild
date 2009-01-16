@@ -13,8 +13,7 @@ SRC_URI="http://builds.nightly.webkit.org/files/trunk/src/${MY_P}.tar.bz2"
 LICENSE="LGPL-2 LGPL-2.1 BSD"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~ia64 ~ppc ~sparc ~x86"
-IUSE="coverage debug gstreamer pango soup sqlite svg xslt"
-# ...
+IUSE="coverage debug video pango soup sqlite svg xslt"
 EPATCH_OPTS="-R -p0"
 
 RDEPEND=">=x11-libs/gtk+-2.8
@@ -24,7 +23,7 @@ RDEPEND=">=x11-libs/gtk+-2.8
 	media-libs/libpng
 	dev-libs/libxml2
 	sqlite? ( >=dev-db/sqlite-3 )
-	gstreamer? (
+	video? (
 		>=media-libs/gst-plugins-base-0.10
 		>=gnome-base/gnome-vfs-2.0
 		)
@@ -42,8 +41,6 @@ S="${WORKDIR}/${MY_P}"
 src_unpack() {
 	unpack ${A}
 	cd "${S}"
-	#epatch "${FILESDIR}/LayoutTestController-cpp-issue.patch"
-	#epatch "${FILESDIR}/LayoutTestController-h-issue.patch"
 	eautoreconf
 }
 
@@ -60,7 +57,7 @@ src_compile() {
 		$(use_enable sqlite icon-database) \
 		$(use_enable sqlite dom-storage) \
 		$(use_enable sqlite offline-web-applications) \
-		$(use_enable gstreamer video) \
+		$(use_enable video) \
 		$(use_enable svg) \
 		$(use_enable debug) \
 		$(use_enable xslt) \
