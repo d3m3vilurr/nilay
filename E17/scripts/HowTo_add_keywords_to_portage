@@ -1,0 +1,12 @@
+The easiest way to use these is to have a /etc/portage/package.keywords directory instead of the one regular file. Then symlink the appropriate package.keywords to /etc/portage/package.keywords/,
+
+$ mv /etc/portage/package.keywords /etc/portage/my.keywords
+$ mkdir /etc/portage/package.keywords
+$ mv /etc/portage/my.keywords /etc/portage/package.keywords
+$ ln -s /usr/portage/local/layman/enlightenment/scripts/package.keywords.livecvs /etc/portage/package.keywords/
+
+You can, if you must, cat the entries from the package.keywords to your /etc/portage/package.keywords/my.keywords file,
+
+$ cat /usr/portage/local/layman/enlightenment/scripts/package.keywords.livecvs >> /etc/portage/package.keywords/my.keywords
+
+but this is not recommended, since it would force you to manually maintain it when the overlay changes.
