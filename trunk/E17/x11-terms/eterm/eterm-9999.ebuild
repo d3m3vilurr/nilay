@@ -5,7 +5,6 @@
 inherit enlightenment
 
 DESCRIPTION="An EFL Based Terminal"
-ESVN_REPO_URI="http://svn.enlightenment.org/svn/e/trunk/MISC/${PN}"
 DEPEND="x11-libs/ecore
 	x11-libs/evas
 	media-libs/imlib2

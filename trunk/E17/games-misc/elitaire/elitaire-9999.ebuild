@@ -2,6 +2,7 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 inherit games enlightenment
+
 DEPEND="x11-libs/ewl
 	media-libs/edje
 	dev-libs/eet

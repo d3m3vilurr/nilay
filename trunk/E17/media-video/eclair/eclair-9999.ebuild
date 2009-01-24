@@ -5,7 +5,7 @@
 inherit enlightenment
 
 DESCRIPTION="EFL powered media player"
-
+ESVN_REPO_URI="http://svn.enlightenment.org/svn/e/trunk/OLD/${PN}"
 RDEPEND="media-libs/taglib
 	x11-libs/evas
 	x11-libs/ecore
