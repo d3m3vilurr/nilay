@@ -2,11 +2,10 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/x11-misc/enotes/enotes-9999.ebuild,v 1.1 2006/08/28 06:19:15 vapier Exp $
 
-ECVS_MODULE="misc/enotes"
 inherit enlightenment
 
 DESCRIPTION="sticky notes system based on the EFL"
-
+ESVN_REPO_URI="http://svn.enlightenment.org/svn/e/trunk/OLD/${PN}"
 DEPEND=">=x11-libs/ewl-0.0.4
 	>=x11-libs/evas-0.9.9
 	>=x11-libs/ecore-0.9.9

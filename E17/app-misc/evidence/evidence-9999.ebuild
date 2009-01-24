@@ -23,11 +23,11 @@ RDEPEND=">=dev-util/pkgconfig-0.5
 	mpeg? ( media-libs/libmpeg3 )
 	media-libs/libao
 	virtual/fam
-	>=x11-libs/evas-0.9.9
-	>=dev-db/edb-1.0.5
-	>=dev-libs/eet-0.9.9
-	>=x11-libs/ecore-0.9.9
-	>=media-libs/imlib2-1.2.0
+	>=x11-libs/evas-9999
+	>=dev-db/edb-9999
+	>=dev-libs/eet-9999
+	>=x11-libs/ecore-9999
+	>=media-libs/imlib2-9999
 	gnome? ( >=gnome-base/gnome-vfs-2.0
 		>=media-libs/libart_lgpl-2.0
 		>=gnome-base/libgnomecanvas-2.0 )"
@@ -39,6 +39,9 @@ src_compile() {
 	#use gnome && MY_ECONF="${MY_ECONF} --enable-canvas-gnomecanvas"
 
 #		$(use_enable gnome backend-gnomevfs2)
+	ewarn "This package is old. Because it uses edb(OLD package)."
+	ewarn "Not sure that it can be built!"
+	ewarn "YOU'VE BEEN WARNED! AND DON'T CRY WHEN FAIL. ;-("
 	export MY_ECONF="
 		--enable-ecore-ipc
 		--enable-canvas-evas2

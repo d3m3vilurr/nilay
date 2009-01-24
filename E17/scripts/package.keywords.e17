@@ -19,6 +19,7 @@ x11-plugins/e_modules-execwatch **
 x11-plugins/e_modules-notification **
 x11-plugins/e_modules-winselector **
 x11-plugins/e_modules-weather **
+x11-plugins/e_modules-exalt-client **
 x11-plugins/itask-ng **
 x11-plugins/e_modules **
 x11-plugins/e_modules-deskshow **
@@ -33,7 +34,6 @@ x11-plugins/e_modules-language **
 x11-plugins/e_modules-alarm **
 x11-plugins/e_modules-bling **
 x11-plugins/e_modules-flame **
-x11-plugins/e_modules-exalt-client **
 x11-plugins/e_modules-iiirk **
 x11-plugins/e_modules-mixer **
 x11-plugins/e_modules-photo **
@@ -57,10 +57,11 @@ x11-misc/engage **
 x11-misc/enotes **
 x11-misc/entrance **
 x11-misc/estickies **
-x11-misc/iconbar **
 sci-misc/engycad **
 x11-terms/enterminus **
+x11-terms/eterm **
 app-admin/empower **
+x11-themes/blingbling **
 x11-themes/b_and_w **
 app-misc/entropy **
 app-misc/examine **
@@ -68,7 +69,6 @@ app-misc/evidence **
 app-text/epdf **
 sci-calculators/equate **
 dev-db/edb **
-mail-client/embrace **
 media-gfx/exhibit **
 media-gfx/elicit **
 media-gfx/ephoto **
@@ -79,13 +79,11 @@ media-libs/emotion **
 media-libs/epsilon **
 media-libs/imlib2 **
 media-libs/imlib2_loaders **
-net-im/express **
 net-misc/exalt **
 app-laptop/epbb **
 x11-wm/e **
 x11-wm/ecompiz **
 x11-wm/emerald **
-x11-wm/ecomorph **
 dev-libs/eet **
 dev-libs/eina **
 dev-libs/exml **

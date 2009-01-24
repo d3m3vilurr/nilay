@@ -5,7 +5,7 @@
 inherit enlightenment
 
 DESCRIPTION="an e17 media player"
-
+ESVN_REPO_URI="http://svn.enlightenment.org/svn/e/trunk/OLD/${PN}"
 DEPEND=">=dev-libs/eet-0.9.9
 	>=x11-libs/evas-0.9.9
 	>=media-libs/edje-0.5.0

@@ -5,8 +5,13 @@
 inherit enlightenment
 
 DESCRIPTION="Simple text editor using EFL and Esmart_Textarea"
-
+ESVN_REPO_URI="http://svn.enlightenment.org/svn/e/trunk/OLD/${PN}"
 DEPEND="x11-libs/evas
 	x11-libs/ecore
 	media-libs/edje
 	x11-libs/esmart"
+
+src_compile() {
+	ewarn "This package is classified at OLD package."
+	enlightenment_src_compile
+}

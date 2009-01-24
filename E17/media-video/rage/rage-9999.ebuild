@@ -2,7 +2,6 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header$
 
-ECVS_MODULE="misc/rage"
 inherit enlightenment
 
 DESCRIPTION="Video frontend using the EFL"

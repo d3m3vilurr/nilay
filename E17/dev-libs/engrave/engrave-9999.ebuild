@@ -5,7 +5,7 @@
 inherit enlightenment
 
 DESCRIPTION="library for editing the contents of edje files"
-
+ESVN_REPO_URI="http://svn.enlightenment.org/svn/e/trunk/OLD/${PN}"
 DEPEND="sys-devel/bison
 	sys-devel/flex
 	>=x11-libs/ecore-0.9.9
