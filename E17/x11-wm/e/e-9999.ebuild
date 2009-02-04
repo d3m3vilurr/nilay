@@ -6,11 +6,8 @@ inherit enlightenment eutils git
 
 DESCRIPTION="The E17 window manager. this ebuild is unified version of E and
 Ecomorph."
-
-EGIT_REPO_URI="git://staff.get-e.org/users/jeffdameth/e.git"
-
+EGIT_REPO_URI="git://github.com/jeffdameth/ecomorph-e17.git"
 IUSE="pam dbus slow-desktop exchange ecomorph"
-
 RDEPEND="pam? ( sys-libs/pam )
 	dbus? ( x11-libs/e_dbus )
 	ecomorph? ( x11-wm/ecompiz )
@@ -31,14 +28,16 @@ DEPEND="${RDEPEND}
 
 src_unpack() {
 	if use ecomorph; then
+		einfo "------------------------------------------------------"
 		elog "After you finish the installation ecomorph,"
 		elog "you can use (your portage overlay)/x11-wm/e/files/start-ecomorph.sh"
 		elog "that is very simple starting script."
-		ewarn "---------- Attention! -------------"
+		ewarn "................... anyone here? please listen........"
 		ewarn "You've enabled ecomorph flag."
-		ewarn "This makes e-9999.ebuild build from 3rd GIT repository."
-		ewarn "NOT OFFICIAL E SVN."
-		ewarn "You've WARNED!"
+		ewarn "This makes e-9999.ebuild build from 3rd party GIT repository."
+		ewarn "Do NOT report problems related to Ecomorph to OFFICIAL E TEAM!"
+		elog "Bug reporting : http://code.google.com/p/itask-module/wiki/Stuff"
+		einfo "------------------------------------------------------"
 		git_src_unpack
 	else
 		enlightenment_src_unpack
