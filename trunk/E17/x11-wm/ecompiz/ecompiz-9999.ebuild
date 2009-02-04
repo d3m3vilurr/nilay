@@ -5,7 +5,7 @@
 inherit eutils git autotools
 
 DESCRIPTION="Ecomp - compiz for ecomorph"
-EGIT_REPO_URI="git://staff.get-e.org/users/jeffdameth/ecomp.git"
+EGIT_REPO_URI="git://github.com/jeffdameth/ecomp.git"
 SLOT="0"
 DEPEND="
 	>=x11-libs/ecore-9999
@@ -29,6 +29,7 @@ src_compile() {
 		eerror "Re-emerge evas with USE=png"
 		die "Re-emerge evas with USE=png"
 	fi
+	epatch "${FILESDIR}/switcher_c_fix.patch"
 	econf --prefix=/usr
 	emake
 }

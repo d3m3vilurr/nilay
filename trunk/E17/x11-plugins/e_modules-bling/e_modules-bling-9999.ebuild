@@ -5,9 +5,7 @@
 inherit enlightenment
 
 PN2="${PN/e_modules-/}"
-
 ESVN_REPO_URI="http://svn.enlightenment.org/svn/e/trunk/E-MODULES-EXTRA/${PN2}"
 DESCRIPTION="e17 module: ${PN2}"
-
 DEPEND=">=media-libs/edje-0.5.0
 	>=x11-wm/e-0.16.999"
