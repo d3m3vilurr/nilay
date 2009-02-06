@@ -20,8 +20,12 @@ DEPEND="
 	gnome-base/librsvg
 	"
 
-src_compile() {
+src_unpack() {
+	git_src_unpack
 	eautoreconf
+}
+
+src_compile() {
 	elog "Do you really want to use Ecomorph?!"
 	elog "copy /usr/share/ecomp/ecomp_settings to"
 	elog "YOUR_HOME_FOLDER/.config/ecomp, to work properly"
@@ -29,7 +33,6 @@ src_compile() {
 		eerror "Re-emerge evas with USE=png"
 		die "Re-emerge evas with USE=png"
 	fi
-	epatch "${FILESDIR}/switcher_c_fix.patch"
 	econf --prefix=/usr
 	emake
 }
