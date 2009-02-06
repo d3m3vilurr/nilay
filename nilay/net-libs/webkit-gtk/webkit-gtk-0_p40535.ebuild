@@ -12,7 +12,7 @@ SRC_URI="http://builds.nightly.webkit.org/files/trunk/src/${MY_P}.tar.bz2"
 
 LICENSE="LGPL-2 LGPL-2.1 BSD"
 SLOT="0"
-KEYWORDS=""
+KEYWORDS="~alpha ~amd64 ~ia64 ~ppc ~sparc ~x86"
 IUSE="coverage debug video pango soup sqlite svg xslt"
 EPATCH_OPTS="-R -p0"
 
@@ -34,6 +34,7 @@ RDEPEND=">=x11-libs/gtk+-2.8
 DEPEND="${RDEPEND}
 	dev-util/gperf
 	dev-util/pkgconfig
+	=x11-libs/geoclue-9999
 	virtual/perl-Text-Balanced"
 
 S="${WORKDIR}/${MY_P}"
@@ -41,7 +42,10 @@ S="${WORKDIR}/${MY_P}"
 src_unpack() {
 	unpack ${A}
 	cd "${S}"
-	eautoreconf
+	pwd
+	# XXX : 40471 hack
+	# eautoreconf
+	./autogen.sh --prefix=/usr
 }
 
 src_compile() {
