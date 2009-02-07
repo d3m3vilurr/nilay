@@ -8,10 +8,9 @@ DESCRIPTION="Theme for E17 that is developed by E17 Main team."
 SRC_URI="http://detour.googlecode.com/files/${P}_e17.edj"
 DEPEND="=x11-wm/e-9999"
 IUSE=""
-KEYWORDS=""
+KEYWORDS="amd64 x86"
 SLOT="0"
 src_unpack() {
-	die "Buggy version. itask-ng does not works."
 	mkdir ${S}
 	cp ${DISTDIR}/${A} ${S}/
 }
