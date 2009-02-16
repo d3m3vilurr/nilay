@@ -7,7 +7,8 @@ inherit eutils autotools
 DESCRIPTION="ecompconfig-python - python binding for libecompconfig"
 SRC_URI="http://itask-module.googlecode.com/files/ecompconfig-python.tar.gz"
 SLOT="0"
-DEPEND="x11-libs/libecompconfig"
+DEPEND="x11-libs/libecompconfig
+	dev-python/pyrex"
 S="./${PN}/"
 src_compile() {
 	cd ${S}
