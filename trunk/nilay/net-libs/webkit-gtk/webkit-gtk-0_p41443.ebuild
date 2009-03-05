@@ -13,7 +13,7 @@ SRC_URI="http://builds.nightly.webkit.org/files/trunk/src/${MY_P}.tar.bz2"
 LICENSE="LGPL-2 LGPL-2.1 BSD"
 SLOT="0"
 KEYWORDS="~alpha ~amd64 ~ia64 ~ppc ~sparc ~x86"
-IUSE="coverage debug video pango soup sqlite svg xslt"
+IUSE="coverage debug video pango sqlite svg xslt geoclue"
 EPATCH_OPTS="-R -p0"
 
 RDEPEND=">=x11-libs/gtk+-2.8
@@ -27,14 +27,14 @@ RDEPEND=">=x11-libs/gtk+-2.8
 		>=media-libs/gst-plugins-base-0.10
 		>=gnome-base/gnome-vfs-2.0
 		)
-	soup? ( >=net-libs/libsoup-2.23.1 )
+	>=net-libs/libsoup-2.25.4
 	xslt? ( dev-libs/libxslt )
 	pango? ( x11-libs/pango )"
 
 DEPEND="${RDEPEND}
 	dev-util/gperf
 	dev-util/pkgconfig
-	=x11-libs/geoclue-9999
+	geoclue? ( =x11-libs/geoclue-9999 )
 	virtual/perl-Text-Balanced"
 
 S="${WORKDIR}/${MY_P}"
@@ -42,9 +42,7 @@ S="${WORKDIR}/${MY_P}"
 src_unpack() {
 	unpack ${A}
 	cd "${S}"
-	pwd
-	# XXX : 40471 hack
-	# eautoreconf
+	#eautoreconf
 	./autogen.sh --prefix=/usr
 }
 
@@ -54,7 +52,6 @@ src_compile() {
 
 	local myconf
 		use pango && myconf="${myconf} --with-font-backend=pango"
-		use soup && myconf="${myconf} --with-http-backend=soup"
 
 	econf \
 		$(use_enable sqlite database) \
