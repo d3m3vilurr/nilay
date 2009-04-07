@@ -1,0 +1,20 @@
+--- unalz/Makefile.orig	2009-04-05 17:24:57.000000000 +0900
++++ unalz/Makefile	2009-04-05 17:25:16.000000000 +0900
+@@ -17,7 +17,7 @@
+ 	@echo " linux-utf8        : LINUX with utf8 filesystem(without -liconv option)"
+ 	@echo " posix-noiconv     : POSIX without libiconv (Windows(MINGW32,CYGWIN) or EUC-KR file system)"
+ 	@echo ""
+-	@echo " 'install' for copy unalz to /usr/local/bin and  "
++	@echo " 'install' for copy unalz to /usr/bin and  "
+ 	@echo " 'clean' for clean"
+ 	@echo ""
+ 
+@@ -38,7 +38,7 @@
+ 	$(CPP) $(OBJ) $(LDFLAGS) -o $(BIN)
+ 
+ install:
+-	cp unalz /usr/local/bin/
++	cp unalz /usr/bin/
+ 
+ clean:
+ 	rm -f $(OBJ) $(BIN)
