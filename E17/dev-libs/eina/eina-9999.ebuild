@@ -21,6 +21,7 @@ src_compile() {
 	$(use_enable tests)
 	$(use_enable e17benchmark e17)
 	--enable-default-mempool
+	--enable-ememoa
 	"
 	if ! use doc; then
 		MY_ECONF="${MY_ECONF} --disable-doc"

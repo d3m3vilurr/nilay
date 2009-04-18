@@ -51,6 +51,7 @@ x11-libs/libecompconfig * ~* **
 x11-libs/ecore * ~* **
 x11-libs/e_dbus * ~* **
 x11-libs/esmart * ~* **
+x11-libs/elementary * ~* **
 x11-misc/expedite * ~* **
 x11-misc/enity * ~* **
 x11-misc/entrance_edit_gui * ~* **
