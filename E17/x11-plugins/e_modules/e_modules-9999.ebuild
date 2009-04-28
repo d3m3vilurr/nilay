@@ -43,6 +43,7 @@ DEPEND="x11-plugins/e_modules-alarm
 	x11-plugins/e_modules-uptime
 	x11-plugins/e_modules-weather
 	x11-plugins/e_modules-winselector
+	x11-plugins/e_modules-configmenu
 	x11-plugins/e_modules-wlan"
 
 src_unpack() { :; }
