@@ -23,7 +23,6 @@ RDEPEND=">=x11-libs/gtk+-2.8
 	media-libs/libpng
 	dev-libs/libxml2
 	dev-util/gtk-doc
-	>=app-text/enchant-0.22
 	sqlite? ( >=dev-db/sqlite-3 )
 	video? (
 		>=media-libs/gst-plugins-base-0.10
