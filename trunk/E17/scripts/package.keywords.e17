@@ -9,7 +9,6 @@ x11-plugins/e_modules-places * ~* **
 x11-plugins/e_modules-tclock * ~* **
 x11-plugins/e_modules-tiling * ~* **
 x11-plugins/e_modules-uptime * ~* **
-x11-plugins/e_modules-systray * ~* **
 x11-plugins/e_modules-efm_path * ~* **
 x11-plugins/e_modules-cpu * ~* **
 x11-plugins/e_modules-emu * ~* **
