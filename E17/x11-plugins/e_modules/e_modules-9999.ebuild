@@ -36,7 +36,6 @@ DEPEND="x11-plugins/e_modules-alarm
 	x11-plugins/e_modules-screenshot
 	x11-plugins/e_modules-slideshow
 	x11-plugins/e_modules-snow
-	x11-plugins/e_modules-systray
 	x11-plugins/e_modules-taskbar
 	x11-plugins/e_modules-tclock
 	x11-plugins/e_modules-tiling
