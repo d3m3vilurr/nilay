@@ -13,28 +13,28 @@ ESVN_REPO_URI="http://svn.gnome.org/svn/murrine/trunk"
 ESVN_PROJECT="murrine"
 ESVN_BOOTSTRAP="autogen.sh"
 HOMEPAGE="http://cimi.netsons.org/pages/murrine.php"
-URI_PREFIX="http://cimi.netsons.org/media/download_gallery"
-SRC_URI="${URI_PREFIX}/MurrinaFancyCandy.tar.bz2 ${URI_PREFIX}/MurrinaVerdeOlivo.tar.bz2 ${URI_PREFIX}/MurrinaGilouche.tar.bz2 ${URI_PREFIX}/MurrinaLoveGray.tar.bz2 ${URI_PREFIX}/MurrineThemePack.tar.bz2 ${URI_PREFIX}/MurrineXfwm.tar.bz2 http://www.kernow-webhosting.com/~bvc/theme/mcity/Murrine.tar.gz"
 
 LICENSE="GPL-2"
 SLOT="0"
 KEYWORDS="amd64 ppc x86 ~x86-fbsd"
-IUSE=""
+IUSE="+themes animation-rtl"
 
-RDEPEND=">=x11-libs/gtk+-2.12.0"
-DEPEND=">=x11-libs/gtk+-2.12.0"
+RDEPEND=">=x11-libs/gtk+-2.12.0
+themes? ( x11-themes/murrine-themes )"
+DEPEND="${RDEPEND}"
 
 S="${WORKDIR}/${MY_P}"
 
 src_compile() {
-	econf --enable-animation || die "econf failed"
+	local myconf="--enable-animation"
+	if use animation-rtl; then
+		export myconf="--enable-animationrtl"
+	fi
+
+	econf --enable-rgba ${myconf}
 	emake || die "emake failed"
 }
 
 src_install() {
 	emake DESTDIR="${D}" install || die "emake install failed"
-
-	dodir /usr/share/themes
-	insinto /usr/share/themes
-	doins -r ${WORKDIR}/Murrin*
 }
