@@ -30,10 +30,11 @@ dev-util/pkgconfig"
 #}
 
 src_compile() {
-   econf || die "econf failed"
-   emake || die "emake failed"
+	pwd
+	econf || die "econf failed"
+	emake || die "emake failed"
 }
 
 src_install() {
-   make DESTDIR="${D}" install || die
+	make DESTDIR="${D}" install || die
 }
