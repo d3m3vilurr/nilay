@@ -31,6 +31,8 @@ dev-util/pkgconfig"
 
 src_compile() {
 	pwd
+	epatch "${FILESDIR}"/01-remapped_libtool.patch
+	eautoreconf
 	econf || die "econf failed"
 	emake || die "emake failed"
 }
