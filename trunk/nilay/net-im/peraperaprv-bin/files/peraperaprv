@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+cd /opt/peraperaprv-bin
+java -jar /opt/peraperaprv-bin/PeraPeraPrv.jar
