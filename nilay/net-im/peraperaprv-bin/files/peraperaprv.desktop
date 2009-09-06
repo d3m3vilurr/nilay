@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=P3:PeraPeraPrv
+GenericName=P3:PeraPeraPrv
+Comment=Pure Java twitter client
+Exec=peraperaprv
+Icon=/opt/peraperaprv-bin/P3_Resources/Images/iconimage.png
+StartupNotify=true
+Terminal=false
+Type=Application
+Categories=Network;InstantMessaging;
