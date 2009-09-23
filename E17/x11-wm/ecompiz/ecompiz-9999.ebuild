@@ -27,10 +27,6 @@ src_unpack() {
 }
 
 src_compile() {
-	elog "Do you really want to use Ecomorph?!"
-	elog "copy /usr/share/ecomp/ecomp_settings to"
-	elog "YOUR_HOME_FOLDER/.config/ecomp, to work properly"
-	pwd
 	./autogen.sh --prefix=/usr
 	if ! built_with_use x11-libs/evas png ; then
 		eerror "Re-emerge evas with USE=png"

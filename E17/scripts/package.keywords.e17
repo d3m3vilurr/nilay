@@ -80,6 +80,7 @@ media-gfx/retina * ~* **
 media-libs/edje * ~* **
 media-libs/emotion * ~* **
 media-libs/epsilon * ~* **
+media-libs/ethumb * ~* **
 media-libs/imlib2 * ~* **
 media-libs/imlib2_loaders * ~* **
 net-libs/webkit-efl * ~* **
