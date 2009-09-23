@@ -6,9 +6,11 @@ inherit enlightenment
 
 ESVN_REPO_URI="http://svn.enlightenment.org/svn/e/trunk/PROTO/exalt"
 DESCRIPTION="efl based front end network manager"
-IUSE="dhclient wpa_supplicant vpnc"
+IUSE="+dhclient +wpa_supplicant vpnc"
 DEPEND="=x11-libs/e_dbus-9999
 	=x11-libs/ecore-9999
 	=x11-libs/elementary-9999
-	net-wireless/wpa_supplicant"
+	net-wireless/wpa_supplicant
+	net-misc/dhcp"
+
 
