@@ -67,7 +67,7 @@ src_compile() {
 	"
 	#WARNING: unrecognized options: --enable-ecore-evas-x11-16,
 	#--enable-evas-xrender, --disable-ecore-dfb, --enable-ecore-evas-gl
-	epatch ${FILESDIR}/ecore-icc-hack.patch
+	#epatch ${FILESDIR}/ecore-icc-hack.patch
 	# removed from svn. T^T
 	#epatch ${FILESDIR}/ecore-desktop-menu.patch 
 	#epatch ${FILESDIR}/ecore-desktop_new-eina-api.patch 
